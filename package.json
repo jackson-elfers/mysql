@@ -21,10 +21,23 @@
   "devDependencies": {
     "after": "0.8.2",
     "eslint": "5.16.0",
+    "husky": "^3.1.0",
+    "lint-staged": "^9.5.0",
     "seedrandom": "3.0.3",
     "timezone-mock": "0.0.7",
     "urun": "0.0.8",
     "utest": "0.0.8"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run test && npm run lint-readme && lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.js": [
+      "eslint --fix",
+      "git add"
+    ]
   },
   "files": [
     "lib/",
@@ -37,7 +50,8 @@
     "node": ">= 0.6"
   },
   "scripts": {
-    "lint": "eslint . && node tool/lint-readme.js",
+    "lint-readme": "node tool/lint-readme.js",
+    "lint": "eslint . && npm run lint-readme",
     "test": "node test/run.js",
     "test-ci": "node tool/install-nyc.js --nyc-optional --reporter=text -- npm test",
     "test-cov": "node tool/install-nyc.js --reporter=html --reporter=text -- npm test",
